@@ -13,11 +13,17 @@ Lokale Änderungen an den Server übertragen
 git push --set-upstream origin master
 
 
+https://www.samlau.me/projects/2017-09-01-nbinteract
+pip install nbinteract
+jupyter nbconvert --to interact my_notebook.ipynb
+
+Das Folgende ist noch unklar:
 nbinteract init
 git cloneX 
 https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 nbinteract seytr/web-python/master slider.ipynb # geht nicht
-jupyter nbconvert --to interact slider.ipynb
+
+
 
 Das Folgende stammt von:
 https://thomas-leister.de/git-fuer-einsteiger/
