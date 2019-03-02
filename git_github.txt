@@ -1,0 +1,6 @@
+nbinteract init
+git cloneX 
+https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+nbinteract seytr/web-python/master slider.ipynb # geht nicht
+jupyter nbconvert --to interact slider.ipynb
+
