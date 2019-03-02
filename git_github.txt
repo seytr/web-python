@@ -19,3 +19,205 @@ https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 nbinteract seytr/web-python/master slider.ipynb # geht nicht
 jupyter nbconvert --to interact slider.ipynb
 
+Das Folgende stammt von:
+https://thomas-leister.de/git-fuer-einsteiger/
+
+Die wichtigsten Git-Kommandos für Einsteiger
+24.02.2016
+
+Git ist das beliebteste verteilte Versionsverwaltungssystem und in der Software-Welt allgegenwärtig. Spätestens bei komplexeren Softwareprojekten, der Arbeit in einem Team oder der Beteiligung an einem bereits bestehenden Softwareprojekt z.B. auf GitHub, sind gewisse Git-Kenntnisse Voraussetzung. In diesem Beitrag will ich auf die wichtigsten Kommandos eingehen und eine Einführung in Git geben, sodass sich auch Neulinge schnell zurechtfinden. Dabei nehme ich Bezug auf die Plattform GitHub. Selbstverständlich funktioniert die Anleitung in ganz ähnlicher Form auch mit anderen Git-Anbietern wie z.B. GitLab - einzig die URLs zu den Repositories unterscheiden sich.
+Wozu Git?
+
+Git erleichtert vor allem die Zusammenarbeit im Team. Würde jeder Entwickler in einem Team auf dasselbe, zentrale Verzeichnis mit Code zugreifen (z.B. eine zentrale Netzwerkfreigabe), gäbe es schnell Konflikte: Änderungen würden von den Kollegen schnell überschrieben, wären schwer nachvollziehbar, und Versionsmanagement gäbe es nicht. Es ist nahezu unmöglich, ein Softwareprojekt im Team ohne eine Versionsverwaltung wie Git durchzuführen.
+
+Mit Git kann jeder Entwickler eine eigene Kopie des aktuellen Codes erstellen, seine Änderungen an der Kopie durchführen, und die Änderungen wieder zurück in die Basis übertragen lassen. Der Einzelne ist damit weitestgehend unabhängig von den Kollegen. Git sorgt dafür, dass die Änderungen am Code korrekt einfließen und es zu keinen Konflikten und Widersprüchen kommt.
+Voraussetzungen
+
+Git muss auf dem eigenen Rechner installiert sein. In den meisten Fällen heißt das Paket unter Linux ganz einfach “git”:
+
+apt install git
+
+Versionen für Windows und MAC OS findet ihr auf der Git Download-Seite: https://git-scm.com/downloads
+Ein lokales Git-Repository erstellen und auf GitHub hochladen
+
+Aus einem vorhandenen Verzeichnis mit Quellcode kann ein Git-Repository generiert werden, indem man das folgende Kommando in diesem Verzeichnis ausführt:
+
+git init
+
+Das lokale Repository ist damit angelegt und kann nun auf GitHub hochgeladen werden, sodass Teammitglieder darauf zugreifen können. Dazu muss auf GitHub ebenfalls ein neues, leeres Repository erstellt werden. Das Hochladen der lokalen Repository-Version auf den GitHub Server geschieht über ein “push” Command. Damit Git den GitHub-Server kennt, muss er zunächst bekannt gemacht werden. Der GitHub-Server soll “origin” heißen (das ist so üblich) und wird mit folgendem Kommando hinzugefügt:
+
+git remote add origin https://github.com/ThomasLeister/beispiel.git
+
+Die URL am Ende des Kommandos ist dabei die URL zum Repository und muss natürlich angepasst werden.
+
+Bevor alle Daten im Code-Verzeichnis zu GitHub hochgeladen werden, sollte man sich überlegen, ob der Code noch sensible Daten wie z.B. Passwörter enthält. Man kann die Daten auf dem Git-Server zwar später noch aktualisieren und versehentlich veröffentlichte Informationen herauslöschen, allerdings wird die erste Code-Version mit den sensiblen Informationen immer in der Chronik sichtbar bleiben. Einmal hochgeladen, müsste man das gesamte Repo vom Server löschen, um ungewollt veröffentlichten Code zu entfernen.
+
+Sollte es Dateien geben, die nur lokal existieren und niemals auf GitHub hochgeladen werden sollen, kann man diese Dateien zu einer Ausnahme-Datei .gitignore hinzufügen. Diese Datei (man beachte den führenden Punkt!) wird direkt im Hauptverzeichnis des Git-Reposotories angelegt und enthält die Pfade zu Dateien, die von Git ignoriert werden sollen, z.B.
+
+geheim.php
+include/config/dbconfig.php
+include/geheimesverzeichnis
+
+Für die erste Übertragung zu GitHub werden die folgenden Befehle ausgeführt:
+
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+
+(Mehr dazu gleich)
+Ein entferntes Repository herunterladen
+
+Existierende, entfernte Repositories z.B. auf GitHub können auf den eigenen Rechner geklont werden:
+
+git clone https://github.com/ThomasLeister/beispiel.git
+
+Das Kommando erstellt ein neues Git-Verzeichnis “beispiel”, bei dem der zu nutzende Remote-Server bereits festgelegt ist. Mit einem geklonten Verzeichnis kann man direkt loslegen und muss keine Remote-Server einrichten.
+Den Status des Repositorys abfragen
+
+Ihr solltet jetzt entweder ein geklontes Repo oder ein selbst erstelltes Repo vor euch haben. Ein wichtiges Kommando im Umgang mit Git ist
+
+git status
+
+Es gibt euch einige Informationen zum aktuellen Stand, z.B. ob Änderungen noch nicht “commited” wurden oder welcher Branch gerade aktiv ist. Bei einem kürzlich hochgeladenen oder geklonten Repo sollte diese Ausgabe erscheinen:
+
+Auf Branch master
+nichts zu committen, Arbeitsverzeichnis unverändert
+
+Das bedeutet, dass es bisher keine lokalen Änderungen am Code gab oder alle Änderungen bereits gespeichert sind.
+Commits
+
+An dieser Stelle ist es nützlich, zu wissen, was Commits überhaupt sind. Immer, wenn man als Entwickler einen Teil / einen Schritt seiner Arbeit fertiggestellt hat (z.B. die Programmierung eines neuen Moduls), erzeugt man einen solchen Commit. Ein Commit bedeutet: “Meine Änderungen sollen als Entwicklungsschritt in die Chronik mit aufgenommen werden”. Zusätzlich zum Commit gibt man eine kurze Nachricht an, die anderen Entwicklern in der Chronik angezeigt wird. Darin wird kurz beschrieben, welche neuen Änderungen der Commit mit sich bringt z.B. “Changes header color to blue”. Ein Commit entspricht einem “Entwicklungsstand” zu dem jederzeit zurückgesprungen werden kann.
+
+Angenommen, ich habe den aktuellen Code von GitHub heruntergeladen und eine neue Funktion “blinken” zum lokalen Code hinzugefügt. Ich bin mit meinen Arbeiten fertig und will die Änderungen committen. Zuerst verschafft man sich einen Überblick über die geänderten Dateien:
+
+git status
+
+Nun werden alle Dateien zur sog. “Staging-Area” hinzugefügt, die für den Commit berücksichtigt werden sollen. Es können einzelne Dateien hinzugefügt werden:
+
+git add geändertedatei.js
+
+… oder alle vorhandenen Dateien inkl. Unterverzeichnisse:
+
+git add .
+
+Wenn ihr nochmals ein “git status” ausführt, seht ihr, wie sich die Ausgabe geändert hat und die geänderten Dateien grün angezeigt werden. Solltet ihr eine Datei bei euren Arbeiten irrtümlich geändert haben und wollte das rückgängig machen, könnt ihr diesen Befehl verwenden: (Reset auf den Ursprungszustand)
+
+git checkout -- meinedatei.txt
+
+Eine irrtümlich zur Staging-Area hinzugefügte dabei kann übrigens so wieder herausgenommen werden:
+
+git reset HEAD meinedatei.txt
+
+Sobald alle gewünschten Dateien zur Staging-Area hinzugefügt sind, kann der Commit erstellt werden:
+
+git commit -m "Adds module blink"
+
+Damit der Commit und die Änderungen auch für Teamkollegen sichtbar werden, muss der GitHub-Server aktualisiert werden. Das geschieht via
+
+git push
+
+Umgekehrt sollte man vor dem Beginn der eigenen Arbeiten sicherstellen, dass die lokale Code-Version die aktuellste ist. Um das lokale Repo mit dem Server zu synchonisieren, wird ein
+
+git pull
+
+ausgeführt.
+Branches
+
+Bisher haben wir nur den “master” Branch verwendet - also den “Haupt-Versionszweig”. Branches (Verzweigungen / Versionszweige) sind ein elementarer Bestandteil von Git und ermöglichen erst eine vernünftige Entwicklung im Team. Sie bilden den nebenläufigen Entwicklungsprozesse ab und lassen sich sich aus bestehenden Branches erstellen (neuer Versionszweig) oder in einen anderen Branch zurückführen.
+
+In der Realität wird ein Team nicht nur auf einem einzigen Branch entwickeln, sondern auf mehreren Branches gleichzeitig. Während der eine Entwickler auf dem Branch “blinkfeature” eine neue Blink-Funktion implementiert, behebt z.B. ein anderer Entwickler parallel auf dem Branch “bugfix” einen Fehler. Sobald ein Entwickler mit seinen Arbeiten innerhalb seines Versionszweiges fertig ist, “merged” er seinen Branch z.B. in den master-Branch (Zusammenführung). Git übernimmt dabei die Änderungen aus dem jeweils “gemergeten” Branch in den master-branch und geht dabei so intelligent vor, dass es meistens zu keinen Änderungswidersprüchen kommt. Einen neuen Branch erstellen und mergen
+
+Nehmen wir an, ein Fehler wurde gemeldet und ihr wollt diesen Beheben. Ihr erstellt euch für euren Bugfix zuerst einen neuen, lokalen Branch “bugfix”, der aus dem master-Zweig (aktuelle, fertige Version) auszweigt:
+
+git checkout -b bugfix master
+
+Wenn ihr jetzt “git” Status aufruft, wird euch angezeigt, dass ihr euch auf dem “bugfix”-Versionszweig befindet. Ihr könnt jetzt eure Änderungen am Code durchführen, geänderte und hinzugefügte Dateien stagen und einen Commit erstellen:
+
+git add .
+git commit -m "Fixes bug xy"
+
+Falls ihr euren Branch auch anderen Entwicklern auf dem Server bereitstellen wollt, könnt ihr optional ein
+
+git push -u origin bugfix
+
+ausführen. Wenn ihr alleine an dem Bugfix arbeitet, ist das aber nicht nötig. In dem Fall bleibt euer Branch lokal auf dem Rechner. Der Commit auf dem bugfix-Branch ist erstellt - jetzt wird wieder in den master-Branch gewechselt:
+
+git checkout master
+
+… und die Änderungen aus eurem bugfix-Branch werden darauf angewendet:
+
+git merge bugfix
+
+Zum Schluss noch ein
+
+git push
+
+… um den aktualisierten master-Branch auf dem Server zu aktualisieren. Euer bugfix-Branch wird nun nicht mehr benötigt und kann gelöscht werden:
+
+git branch -d bugfix
+
+Branches vom Server abholen
+
+Sollten andere Entwickler ihre Branches auf dem Git-Server verfügbar gemacht haben, können diese Branches heruntergeladen werden:
+
+git fetch origin
+
+Verfügbares Branches anzeigen:
+
+git branch
+
+Zwischen Branches wechseln:
+
+Mit
+
+git checkout [branchname]
+
+könnt ihr zwischen den verschiedenen Branches wechseln. Git wird bei jedem Checkout die Quelldateien entsprechend ändern.
+
+Wichtig: Branches können normalerweise nur gewechselt werden, wenn die Änderungen am aktuellen Branch committed wurden oder es keine Änderungen gab. Dennoch kann es z.B. passieren, dass ihr gerade an einem neuen Feature programmiert und ihr spontan einen kritischen Fehler beheben müsst. Ihr wollt eure Arbeit am neuen Feature aber noch nicht committen, weil ihr gerade noch Mitten in der Arbeit seid. In so einem Fall hilft euch stash/pop.
+
+Der Befehl
+
+git stash
+
+sichert eure Änderungen am aktuellen Branch an eine andere Stelle und setzt den Branch in den Ursprungszustand zurück, sodass es für Git keine Änderungen an diesem Branch gibt und ihr den branch mit einem checkout wechseln könnt. Ihr könnt nun zu einem anderen Branch umschalten oder einen neuen Branch für euren Bugfix anlegen. Nachdem ihr mit dem Fix fertig seid, den Fix committed und gemerged habt, könnt ihr zu eurem vorherigen Feature-Branch zurückkehren, und die Änderungen vor vorher wieder darauf anwenden lassen:
+
+git stash pop
+
+Der Branch für euer Feature ist jetzt wieder im selben Zustand wie vor dem Bugfix und ihr könnt an eurem Code weiterarbeiten.
+Allgemeiner Workflow
+
+Während der Entwicklungsarbeit wird euer Workflow meistens in etwa so aussehen:
+
+    Aktuellen master-Branch vom Server downloaden (vorher mit git status sicherstellen, dass man sich auf dem master-Branch befindet. Wenn nicht: git checkout master):
+    git pull
+    Einen neuen Branch für das kommende Feature anlegen:
+    git checkout -b meinfeature master
+    [Änderungen am Code durchführen]
+    Geänderte und neue Dateien stagen:
+    git add .
+    Änderungen committen:
+    git commit -m "Changes xyz"
+    Jetzt den Branch auf den Server laden, wenn gewünscht:
+    git push -u origin meinfeature
+    … oder direkt in dem master wechseln:
+    git checkout master
+    (nochmals aktuellen Code ziehen - zur Sicherheit)
+    git pull
+    Eigenen Code mit master zusammenführen:
+    git merge meinfeature
+    Nicht mehr benötigten Branch löschen:
+    git branch -d meinfeature
+    Aktualisierten master auf den Server pushen:
+    git push
+    Fertig :)
+
+Sonstiges
+
+Der Umgang mit Git erfordert etwas Übung. Am schnellsten versteht ihr das Prinzip, wenn ihr euch ein Beispielprojekt erstellt und verschiedene Szenarien durchspielt, z.B. ein neues Feature soll integriert werden oder ein kritischer Bug soll während eurer Arbeit an einem anderen Modul behoben werden. Ich kenne keine Person, die GitHub ohne Vorkenntnisse sofort verstanden hat und fehlerfrei bedienen konnte - macht euch da also keine Sorgen: Übung macht den Meister.
+
+Üben könnt ihr übrigens auch hier: https://try.github.io
+
+Wenn ihr einmal etwas Git-Erfahrung habt, werdet ihr es nicht mehr missen wollen ;)
+
+    #Git#Versionsverwaltung
