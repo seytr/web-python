@@ -227,3 +227,28 @@ Der Umgang mit Git erfordert etwas Übung. Am schnellsten versteht ihr das Prinz
 Wenn ihr einmal etwas Git-Erfahrung habt, werdet ihr es nicht mehr missen wollen ;)
 
     #Git#Versionsverwaltung
+
+https://github.com/kirbs-/hide_code
+
+Installation
+
+    pip install hide_code
+    jupyter nbextension install --py hide_code
+    jupyter nbextension enable --py hide_code
+    jupyter serverextension enable --py hide_code
+
+Upgrading with nbextension
+
+    pip install hide_code --upgrade
+    jupyter nbextension install --py hide_code
+
+Note: add --sys-prefix to jupyter nbextension to install into virtualenv 
+or conda environment.
+New in 0.5.0
+
+    Export Reveal.js slides or latex templates.
+    Support for nbconvert 5.x+ and notebook 5.x+.
+
+Documentation
+
+Visit the Wiki.
