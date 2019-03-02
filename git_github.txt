@@ -1,3 +1,18 @@
+commit - übernehmen
+branch - Ast, Zweig
+
+Ein existierendes Verzeichnis als Git Repository initialisieren
+$ git init
+
+git config --global user.email "erbach@t-online.de"
+git config --global user.name "seytr"
+
+git commit -m 'Anfangsversion'
+
+Lokale Änderungen an den Server übertragen
+git push --set-upstream origin master
+
+
 nbinteract init
 git cloneX 
 https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
